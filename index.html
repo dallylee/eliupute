@@ -397,50 +397,41 @@
             text-align: center;
             opacity: 0;
             padding: 0 10px;
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            top: -100px;
-            z-index: 10000;
-            width: 90%;
-            max-width: 600px;
+            margin-top: 20px;
+            transform: scale(0.6) rotate(-10deg);
         }
 
         @media (min-width: 768px) {
             .final-message {
                 font-size: 2em;
+                margin-top: 25px;
             }
         }
 
-        .final-message.show {
-            animation: descendFromTop 2.5s ease-out forwards;
+        .final-message.reveal {
+            animation: finalReveal 1.2s ease-out forwards;
         }
 
-        @keyframes descendFromTop {
+        @keyframes finalReveal {
             0% {
                 opacity: 0;
-                top: -100px;
+                transform: scale(0.6) rotate(-12deg);
             }
             100% {
                 opacity: 1;
-                top: 50%;
-                transform: translateX(-50%) translateY(-50%);
+                transform: scale(1) rotate(0deg);
             }
         }
 
-        .final-message.landed {
-            position: static;
-            opacity: 1;
-            margin-top: 25px;
-            width: 100%;
-            max-width: none;
-            padding: 0;
+        .final-text {
+            display: block;
         }
 
-        @media (min-width: 768px) {
-            .final-message.landed {
-                margin-top: 30px;
-            }
+        .final-hearts {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .heart-explode {
@@ -558,7 +549,12 @@
             <div class="surprise-text" id="surpriseText">E da, još nešto....</div>
             <button class="surprise-button" id="surpriseBtn">Tu čvrkni s prstekom</button>
             <div id="finalMessage" class="final-message hidden">
-                Ujko te voli najviše na svjeteku! <span id="heart1" class="heart">💖</span><span id="heart2" class="heart">💖</span><span id="heart3" class="heart">💖</span>
+                <div class="final-text">Ujko te voli najviše na svjeteku!</div>
+                <div class="final-hearts">
+                    <span id="heart1" class="heart">💖</span>
+                    <span id="heart2" class="heart">💖</span>
+                    <span id="heart3" class="heart">💖</span>
+                </div>
             </div>
         </div>
     </div>
@@ -601,55 +597,42 @@
                 setTimeout(() => createConfetti(), i * 10);
             }
 
-            // Show final message descending from top
-            setTimeout(() => {
-                finalMessage.classList.remove('hidden');
-                finalMessage.classList.add('show');
-            }, 100);
-
             // Create balloons
             for (let i = 0; i < 20; i++) {
                 setTimeout(() => createBalloon(), i * 100);
             }
 
-            // After message lands, reposition it and trigger heart explosions
+            // Show final message after 3 seconds
             setTimeout(() => {
-                finalMessage.classList.add('landed');
-                finalMessage.classList.remove('show');
-                finalMessage.style.position = '';
-                finalMessage.style.top = '';
-                finalMessage.style.left = '';
-                finalMessage.style.transform = '';
-                finalMessage.style.width = '';
-                finalMessage.style.maxWidth = '';
-                finalMessage.style.padding = '';
-                
-                // Explode hearts in sequence
+                finalMessage.classList.remove('hidden');
+                finalMessage.classList.add('reveal');
+
+                // Explode hearts in sequence after reveal
                 const heart1 = document.getElementById('heart1');
                 const heart2 = document.getElementById('heart2');
                 const heart3 = document.getElementById('heart3');
-                
+
                 // Heart 1 explosion
                 setTimeout(() => {
                     heart1.classList.add('heart-explode');
                     createHeartConfetti(heart1);
                     setTimeout(() => heart1.classList.remove('heart-explode'), 600);
                 }, 200);
-                
+
                 // Heart 2 explosion
                 setTimeout(() => {
                     heart2.classList.add('heart-explode');
                     createHeartConfetti(heart2);
                     setTimeout(() => heart2.classList.remove('heart-explode'), 600);
                 }, 800);
-                
+
                 // Heart 3 explosion
                 setTimeout(() => {
                     heart3.classList.add('heart-explode');
                     createHeartConfetti(heart3);
                     setTimeout(() => heart3.classList.remove('heart-explode'), 600);
                 }, 1400);
-            }, 2500);
+            }, 3000);
         }
 
         // Support both click and touch events
