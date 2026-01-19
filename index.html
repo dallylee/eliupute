@@ -397,14 +397,14 @@
             text-align: center;
             opacity: 0;
             padding: 0 10px;
-            margin-top: 6px;
+            margin-top: 30px;
             transform: scale(0.6) rotate(-10deg);
         }
 
         @media (min-width: 768px) {
             .final-message {
                 font-size: 2em;
-                margin-top: 6px;
+                margin-top: 40px;
             }
         }
 
@@ -541,21 +541,22 @@
             </ul>
         </div>
 
-        <div class="footer float">
+        <div class="footer float" id="footerCallout">
             Eto, to je sve što trebaš znati, a sad tornjaj tu malu rit i idi probaj pričati sa svojom novom prijateljicom!
+        </div>
+
+        <div id="finalMessage" class="final-message hidden">
+            <div class="final-text">Ujko te voli najviše na svjeteku!</div>
+            <div class="final-hearts">
+                <span id="heart1" class="heart">💖</span>
+                <span id="heart2" class="heart">💖</span>
+                <span id="heart3" class="heart">💖</span>
+            </div>
         </div>
 
         <div class="surprise-section">
             <div class="surprise-text" id="surpriseText">E da, još nešto....</div>
             <button class="surprise-button" id="surpriseBtn">Tu čvrkni s prstekom</button>
-            <div id="finalMessage" class="final-message hidden">
-                <div class="final-text">Ujko te voli najviše na svjeteku!</div>
-                <div class="final-hearts">
-                    <span id="heart1" class="heart">💖</span>
-                    <span id="heart2" class="heart">💖</span>
-                    <span id="heart3" class="heart">💖</span>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -584,6 +585,7 @@
         const surpriseBtn = document.getElementById('surpriseBtn');
         const finalMessage = document.getElementById('finalMessage');
         const surpriseText = document.getElementById('surpriseText');
+        const footerCallout = document.getElementById('footerCallout');
 
         function handleSurprise(e) {
             e.preventDefault();
@@ -591,6 +593,9 @@
             // Hide button and surprise text
             surpriseBtn.style.display = 'none';
             surpriseText.style.display = 'none';
+            if (footerCallout) {
+                footerCallout.remove();
+            }
 
             // Create confetti explosion
             for (let i = 0; i < 150; i++) {
